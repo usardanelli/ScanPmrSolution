@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c710031c-07d2-4448-b9c9-4549dd278508" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://10.195.186.22/Service/ScanPmrService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ScanPmrService.disco" MetadataType="Disco" ID="9b38147e-9d02-43f0-8ea6-3f8d806dddd6" SourceId="1" SourceUrl="https://10.195.186.22/Service/ScanPmrService.svc?disco" />
+    <MetadataFile FileName="ScanPmrService.xsd" MetadataType="Schema" ID="a2914276-d940-44a6-ac6f-a35bfcebdf1c" SourceId="1" SourceUrl="https://10.195.186.22/Service/ScanPmrService.svc?xsd=xsd2" />
+    <MetadataFile FileName="ScanPmrService1.xsd" MetadataType="Schema" ID="6c4259c1-6bbb-4faf-bf38-f1b1141d13db" SourceId="1" SourceUrl="https://10.195.186.22/Service/ScanPmrService.svc?xsd=xsd1" />
+    <MetadataFile FileName="ScanPmrService.wsdl" MetadataType="Wsdl" ID="bd7355a4-2553-42a3-84f3-c0daa9ecb615" SourceId="1" SourceUrl="https://10.195.186.22/Service/ScanPmrService.svc?wsdl" />
+    <MetadataFile FileName="ScanPmrService2.xsd" MetadataType="Schema" ID="07dd0369-039f-46f8-b340-7c318fb8d5c4" SourceId="1" SourceUrl="https://10.195.186.22/Service/ScanPmrService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
