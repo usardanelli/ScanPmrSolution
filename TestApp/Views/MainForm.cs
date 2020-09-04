@@ -378,11 +378,24 @@ namespace ScanPmrWinForm
             return string.Empty;
         }
 
+        private void progressBarMarquee()
+        {
+            panel2.Show();
+            // Set Minimum to 1 to represent the first file being copied.
+            pBimages.Minimum = 1;
+            // Set Maximum to the total number of files to copy.
+            pBimages.Maximum = 100;
+            // Set the initial value of the ProgressBar.
+            pBimages.Value = 50;
+            // Set the Step property to a value of 1 to represent each file being copied.
+            pBimages.Step = 50;
 
+        }
 
         private void progressBarInizialize(int maximum)
         {
             panel2.Show();
+          
             // Set Minimum to 1 to represent the first file being copied.
             pBimages.Minimum = 1;
             // Set Maximum to the total number of files to copy.
@@ -391,13 +404,15 @@ namespace ScanPmrWinForm
             pBimages.Value = 1;
             // Set the Step property to a value of 1 to represent each file being copied.
             pBimages.Step = 1;
+
+           
         }
+     
         private void VisualizzaImmagini()
         {
             try
             {
                 string[] paths = Directory.GetFiles(@"C:\Users\umber\Desktop\Test");
-                //string[] paths = Directory.GetFiles(_tempPath);
                 Bitmap bf, br = null;
                 pmrElements = new List<PmrElementClass>();
                 PmrElementClass pmrElement = null;
@@ -414,18 +429,18 @@ namespace ScanPmrWinForm
                 }
                 else
                 {
-                    progressBarInizialize(paths.Length/2);
+                    progressBarInizialize(paths.Length / 2);
                     int j = 1;
                     for (int i = 0; i < paths.Length - 1; i += 2)
                     {
-                        bf = new Bitmap(paths[i]);
-                        br = new Bitmap(paths[i + 1]);
+                        bf = new Bitmap(paths[i +1]);
+                        br = new Bitmap(paths[i]);
 
                         imageListPmr.Images.Add(bf);
                         imageListPmr.Images.Add(br);
                         string code = DecodeImg(bf);
                         if (!string.IsNullOrEmpty(code)) code = code.Remove(code.Length - 1);
-                        pmrElement = new PmrElementClass(j, imageListPmr.Images[i], imageListPmr.Images[i + 1], code, paths[i], paths[i + 1]);
+                        pmrElement = new PmrElementClass(j, imageListPmr.Images[i], imageListPmr.Images[i + 1], code, paths[i +1], paths[i]);
                         pmrElements.Add(pmrElement);
                         bf.Dispose();
                         br.Dispose();
@@ -446,61 +461,7 @@ namespace ScanPmrWinForm
 
                 MessageBox.Show(ex.Message, "Eccezione", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        } 
-        //private void VisualizzaImmagini()
-        //{
-        //    try
-        //    {
-        //        string[] paths = Directory.GetFiles(_tempPath);
-        //        Bitmap bf, br = null;
-        //        pmrElements = new List<PmrElementClass>();
-        //        PmrElementClass pmrElement = null;
-        //        if (paths.Length == 1)
-        //        {
-        //            bf = new Bitmap(paths[0]);
-        //            imageListPmr.Images.Add(bf);
-        //            pmrElement = new PmrElementClass(1, imageListPmr.Images[0], null, DecodeImg(bf), paths[0], string.Empty);
-        //            pmrElements.Add(pmrElement);
-        //            bf.Dispose();
-        //            dataGridViewPmr.DataSource = pmrElements;
-
-        //            UpdateDataGrid();
-        //        }
-        //        else
-        //        {
-        //            progressBarInizialize(paths.Length/2);
-        //            int j = 1;
-        //            for (int i = 0; i < paths.Length - 1; i += 2)
-        //            {
-        //                bf = new Bitmap(paths[i + 1]);
-        //                br = new Bitmap(paths[i]);
-
-        //                imageListPmr.Images.Add(bf);
-        //                imageListPmr.Images.Add(br);
-        //                string code = DecodeImg(bf);
-        //                if (!string.IsNullOrEmpty(code)) code = code.Remove(code.Length - 1);
-        //                pmrElement = new PmrElementClass(j, imageListPmr.Images[i], imageListPmr.Images[i + 1], code, paths[i + 1], paths[i]);
-        //                pmrElements.Add(pmrElement);
-        //                bf.Dispose();
-        //                br.Dispose();
-        //                j++;
-        //                pBimages.PerformStep();
-        //            }
-        //            panel2.Hide();
-
-        //            splitContainerMain.Show();
-
-        //            dataGridViewPmr.DataSource = pmrElements;
-
-        //            UpdateDataGrid();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        MessageBox.Show(ex.Message, "Eccezione", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
+        }
 
 
         private void UpdateDataGrid()
@@ -584,6 +545,8 @@ namespace ScanPmrWinForm
                 List<PmrElementClass> pmrToInsert = null;
                 if (!string.IsNullOrWhiteSpace(_barCodes))
                 {
+                    progressBarMarquee();
+
                     using (var proxy = new ScanPmrServiceClient())
                     {
                         ServicePointManager.ServerCertificateValidationCallback += customXertificateValidation;
@@ -599,6 +562,8 @@ namespace ScanPmrWinForm
                                 pmrElements.Where(x => x.Codice == _validationErrorCodes[i]).SingleOrDefault().ErrorValidation = true;
                             }
                         }
+                        pBimages.PerformStep();
+                        panel2.Hide();
                         pmrToInsert = pmrElements.Where(x => x.InsertSuccess == true).ToList();
                         if (pmrToInsert.Count > 0)
                         {
@@ -606,18 +571,20 @@ namespace ScanPmrWinForm
                             foreach (var pmr in pmrToInsert)
                             {
                                 proxy.InsertPmr(CreateArscan(pmr));
+                                pBimages.PerformStep();
                             }
                             pBimages.Hide();
                         }
 
                     }
-
+                    panel2.Hide();
                 }
                 OpenMonitor();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Eccezione", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                panel2.Hide();
             }
 
         }
