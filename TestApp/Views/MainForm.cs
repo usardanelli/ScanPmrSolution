@@ -115,6 +115,10 @@ namespace ScanPmrWinForm
         {
             if (count < 10)
             {
+                return string.IsNullOrEmpty(barcode) ? $"00{count}_ImmagineSenzaCodice" : $"00{ count}_{barcode}";
+            }
+            else if (count >= 10 && count < 100)
+            {
                 return string.IsNullOrEmpty(barcode) ? $"0{count}_ImmagineSenzaCodice" : $"0{ count}_{barcode}";
             }
 
@@ -155,6 +159,8 @@ namespace ScanPmrWinForm
         }
         private void ScanMethod()
         {
+
+            images = new List<Image>();
             if (Directory.Exists(_tempPath))
             {
                 Directory.Delete(_tempPath, true);
@@ -162,6 +168,8 @@ namespace ScanPmrWinForm
 
             Directory.CreateDirectory(_tempPath);
 
+            //ShowDataGrid();
+          
             pmrNumberForm = new PmrNumberForm();
             pmrNumberForm.ShowDialog();
 
@@ -316,7 +324,8 @@ namespace ScanPmrWinForm
             {
                 imageListPmr.Images.Clear();
 
-                images.Clear();
+        
+
                 dataGridViewPmr.Hide();
                 splitContainerMain.Hide();
                 lblPlichiAnomali.Text = "0";
@@ -412,7 +421,7 @@ namespace ScanPmrWinForm
         {
             try
             {
-                string[] paths = Directory.GetFiles(@"C:\Users\umber\Desktop\Test");
+                string[] paths = Directory.GetFiles(_tempPath);
                 Bitmap bf, br = null;
                 pmrElements = new List<PmrElementClass>();
                 PmrElementClass pmrElement = null;
@@ -644,25 +653,28 @@ namespace ScanPmrWinForm
             try
             {
 
-                splitContainerMonitor.Hide();
+                //splitContainerMonitor.Hide();
 
-                MonitorPmrForm form;
-                form = panelContainer.Controls.OfType<MonitorPmrForm>().FirstOrDefault();
-                form.Close();
+                //MonitorPmrForm form;
+                //form = panelContainer.Controls.OfType<MonitorPmrForm>().FirstOrDefault();
+                //form.Close();
 
-                imageListPmr.Images.Clear();
+                //imageListPmr.Images.Clear();
 
-                images.Clear();
-                dataGridViewPmr.Hide();
-                splitContainerMain.Hide();
-                lblPlichiAnomali.Text = "0";
-                lblPlichiValidi.Text = "0";
-                lblTotale.Text = "0";
-                lblInseriti.Text = "0";
-                lblScartiIns.Text = "0";
-                lblScartiScan.Text = "0";
-                lblScartiVal.Text = "0";
-                scan.Enabled = true;
+                //images.Clear();
+                //dataGridViewPmr.Hide();
+                //splitContainerMain.Hide();
+                //lblPlichiAnomali.Text = "0";
+                //lblPlichiValidi.Text = "0";
+                //lblTotale.Text = "0";
+                //lblInseriti.Text = "0";
+                //lblScartiIns.Text = "0";
+                //lblScartiScan.Text = "0";
+                //lblScartiVal.Text = "0";
+                //scan.Enabled = true;
+                
+                Application.Restart();
+              
                 if (Directory.Exists(_tempPath))
                 {
                     Directory.Delete(_tempPath, true);
