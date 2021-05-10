@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
-using System.Web.Profile;
-
+using System.Text.RegularExpressions;
 namespace ScanPmrService.Models
 {
-    
+
     [DataContract]
     public class ARSCAN
     {
+
         [DataMember]
-        public byte[] IMMAGINE_FRONTE{ get; set; }
+        public byte[] IMMAGINE_FRONTE { get; set; }
 
         [DataMember]
         public byte[] IMMAGINE_RETRO { get; set; }
@@ -30,6 +26,22 @@ namespace ScanPmrService.Models
             IMMAGINE_RETRO = iMMAGINE_RETRO ?? throw new ArgumentNullException(nameof(iMMAGINE_RETRO));
             CODE_BAR = cODE_BAR ?? throw new ArgumentNullException(nameof(cODE_BAR));
             CODE_OPE_SCAN = cODE_OPE_SCAN ?? throw new ArgumentNullException(nameof(cODE_OPE_SCAN));
-        }    
+        }
+
+        public void Validation()
+        {
+            // Create regex
+            Regex rx = new Regex(@"[^0-9a-zA-Z]", RegexOptions.IgnoreCase);
+            if (rx.IsMatch(CODE_OPE_SCAN))
+            {
+                throw new ArgumentOutOfRangeException("CODE_OPE_SCAN");
+            }
+
+            if(rx.IsMatch(CODE_BAR))
+            {
+                throw new ArgumentOutOfRangeException("CODE_BAR");
+            }
+
+        }
     }
 }

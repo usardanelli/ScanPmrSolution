@@ -1,15 +1,7 @@
 ﻿using ScanPmrService.DAL;
 using ScanPmrService.Models;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.Text;
 
 namespace ScanPmrService.Service
 {
@@ -18,16 +10,21 @@ namespace ScanPmrService.Service
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class ScanPmrService : IScanPmrService
     {
-        public string DoWork()
-        {
-            return "Hello REST WCF Service! :)";
-        }
-
+       
         public string InsertPmr(ARSCAN input)
         {
-            var context = new DbContext();
-            var strings = context.InsertPMR(input);
-            return strings;
+
+            try
+            {
+                input.Validation();
+                var context = new DbContext();
+                var strings = context.InsertPMR(input);
+                return strings;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string ValidationBarCodes(string barCodes)
@@ -39,8 +36,8 @@ namespace ScanPmrService.Service
 			    return strings;
 			}
             catch (Exception ex)
-            {
-                return ex.ToString();
+            {               
+                return ex.Message;
             }
         }
 

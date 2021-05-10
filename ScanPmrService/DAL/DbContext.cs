@@ -55,7 +55,6 @@ namespace ScanPmrService.DAL
 
                 conn.Close();
                 result = (string) param.Value;
-                Console.WriteLine("" + param.Value);
 
             }          
 
@@ -102,8 +101,7 @@ namespace ScanPmrService.DAL
 
                 conn.Close();
                 result = (string)param.Value;
-                Console.WriteLine("" + param.Value);
-
+             
             }
 
             return result;
